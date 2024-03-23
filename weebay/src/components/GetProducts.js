@@ -8,10 +8,10 @@ function GetProducts() {
         fetch('https://fakestoreapi.com/products')
             .then(response=>response.json())
             .then(data =>
-                setProducts(data),
-                console.log(products))
+                setProducts(data))
             .catch(error => console.error('Error fetching products', error));
     },[])
+    console.log(products)
     
     const filteredProducts = products.filter(product =>
         product.title.toLowerCase().includes(searchQuery.toLowerCase())
