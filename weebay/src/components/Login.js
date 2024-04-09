@@ -1,65 +1,60 @@
-import React, {useContext, useState} from "react";
-import { AuthContext } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
+// Login.js
+import React, { useState } from 'react';
+import { useAuth } from './AuthContext';
 
-function Login () {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-    const {setAuthStatus } = useContext(AuthContext);
-    const navigate = useNavigate(); //import and use the useNavigate hook
+function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { token, login }= useAuth(); // get the login function from authContext
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('https://fakestoreapi.com/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username,
-                    password
-                })
-            });
+  // Function to handle login submission
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
 
-            const data = await response.json();
+    // Perform login logic here
+    try { 
+      const response = await fetch('https://fakestoreapi.com/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
 
-            if (!response.ok) {
-                throw new Error('Failed to login');
-            }
-            
-            //set Authentication Status
-            setAuthStatus(true, username);
-            navigate('/');
-            //assuming the response contains a token
-            const token = data.token
-            console.log('Token: ',token)
-            //you can now store the token in localStorage, state, or wherever you want
-            
-        } catch (error) {
-            console.error('Error loggin in', error.message);
-            setError('Failed to login. Please check your credentials.');
-        }
-    };
+      if (!response.ok) {
+        throw new Error('Failed to login');
+      }
 
-    return (
+      const data = await response.json();
+      login(data.token); //send token to authprovider OKAY?
+    } catch (error) {
+      console.error('Error', error);
+    }
+  };
+
+  //if token is present, render the welcome message instead of the login form
+  if (token) {
+    return <div>Welcome! You're logged in</div>
+  }
+  //login from rendering
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
         <div>
-            <h2>Login</h2>
-            {error && <p style={{color: 'red'}}>{error}</p>}
-            <form onSubmit={handleLogin}>
-                <div>
-                    <label>Username</label><br></br>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Password</label><br></br>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <button type="submit">Submit</button>
-            </form>
+          <label>Username</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
         </div>
-    )
+        <div>
+          <label>Password</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
 }
 
 export default Login;

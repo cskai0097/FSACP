@@ -1,23 +1,40 @@
-import React, { useState } from "react";
-import { AuthContext } from "./AuthContext";
+import React, { useContext } from "react";
+import { CartContext } from "./CartContext";
+import "../css/Cart.css"
 
-function Cart() {
-    const [carts, setCarts] = useState([]);
-    const [error, setError] = useState(null);
+const Cart = () => {
 
-    useEffect(() => {
-        fetchCarts();
-    },[]);
-
-    const fetchCarts = () => {
-        fetch('https://fakestoreapi.com/carts')
-        .then(res => res.json())
-        .then(data => {
-            setCarts(data);
-        })
-        .catch(error=>{
-            console.error('Error fetching carts:', error);
-            setError('Failed to fetch carts. Please try again later.');
-        });
-    }
-}
+    const {cart,removeFromCart}= useContext(CartContext)
+    
+    const calculateTotal = (cart) => {
+        return cart.reduce((acc, item) => acc +item.price * item.quantity, 0).toFixed(2)
+    };
+    
+    
+    return (
+        <div>
+            <h1>Cart</h1>
+                <div className="cart-container">
+                {cart.length > 0 ? (
+                    <div>
+                        {cart.map((item,index) => (
+                            <div key={index}>
+                                <img src={item.image} alt={item.title}  style={{width: '100px', height:'100px'}}/>
+                                <h3>{item.title}</h3>
+                                <p>${item.price}</p>
+                                <p>Quantity: {item.quantity}</p>
+                                <button onClick={() => removeFromCart(item.id)}>Remove</button>
+                                </div>
+                            ))}
+                            <h2>Total: ${calculateTotal(cart)}</h2>
+                            {/* Checkout button or further navigation can go here */}
+                            </div>
+                    ) : (
+                            <p>Your cart is empty.</p>
+                        )}
+                </div>
+            
+        </div>
+    );
+};
+export default Cart

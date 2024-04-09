@@ -1,31 +1,29 @@
-import React, {createContext, useState} from "react";
+import React, { createContext, useState, useContext} from "react";
 
-//create a new context
-export const AuthContext = createContext();
+//create the auth context
+const AuthContext = createContext();
 
-//create a provider component
+//Auth provider component
 export const AuthProvider = ({ children }) => {
-    //state to manage authentication status and username
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [ username, setUsername ] = useState('');
+    const [token, setToken] = useState(null);
 
-    //function to set authentication state
-    const setAuthStatus = (status, user) => {
-        setIsAuthenticated(status);
-        setUsername(user);
+    const login = (newToken) => {
+        setToken(newToken);
     };
 
-    //value object to be provided by the context
-    const authContextValue = {
-        isAuthenticated,
-        username,
-        setAuthStatus
+    const logout = () => {
+        setToken(null);
     };
-     
-    //provide the value to the context
+    if (token) {
+        console.log("user logged in: [ TOKEN:",token," ]")
+    }
+    else {
+        console.log("user logged out: [ TOKEN:",token," ]")
+    }
     return (
-        <AuthContext.Provider value={authContextValue}>
+        <AuthContext.Provider value={{ token, login, logout }}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};
+export const useAuth = () => useContext(AuthContext)

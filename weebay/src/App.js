@@ -1,31 +1,30 @@
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from './components/AuthContext.js';
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './components/AuthContext';
+import { CartProvider } from './components/CartContext';
+import Home from './components/Home';
+import Login from './components/Login';
 import Navbar from './components/Navbar';
-import Home from './components/Home.js';
-import Registration from './components/Registration.js';
-import GetProducts from './components/GetProducts.js';
-import Login from './components/Login.js';
-
-
+import SignUp from './components/Signup';
+import Cart from './components/Cart';
 
 function App() {
   return (
     <Router>
-      <div>
+      <CartProvider>
         <AuthProvider>
           <Navbar />
           <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/products' element={<GetProducts />} />
-            <Route path ='/login' element={<Login />} />
-            <Route path='/registration' element={<Registration />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path='signup' element={<SignUp />} />
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </AuthProvider>
-      </div>
-    </Router>   
+      </CartProvider>
+    </Router>
   );
 }
-
 
 export default App;
