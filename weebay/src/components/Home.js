@@ -21,7 +21,7 @@ function Home() {
 
     return (
         <div>
-            <h1>This is the Homepage</h1>
+            <h1>Fake Store</h1>
             <h2>Products</h2>
             <div className="product-container">
                 {products.map(product => (
