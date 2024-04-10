@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Navbar from './components/Navbar';
 import SignUp from './components/Signup';
 import Cart from './components/Cart';
+import Checkout from './components/Checkout';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path='signup' element={<SignUp />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </AuthProvider>
       </CartProvider>

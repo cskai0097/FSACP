@@ -7,7 +7,8 @@
 }
  .right-links {
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
+    gap:10
  }
 .navbar div {
     display: flex;
@@ -15,7 +16,8 @@
 }
 
 .navbar a, .logout-button {
-    display: block;
+    display: inline-block;
+    width: auto;
     color: #ffffff;
     text-align: center;
     padding: 10px 16px;

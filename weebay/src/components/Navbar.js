@@ -15,26 +15,15 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className='navbar'>
-        <div>
-          <div>
-            <Link to="/">Home</Link>
-          </div>
-          <div className='right-links'>
-            {!token && (
-                <Link to="/signup">Sign Up</Link>
-              )}
-            {!token ? (
-                <Link to="/login">Login</Link> 
-            ) : (<div className='logout-button'>
-                  <button onClick={logout}>Logout</button>
-                </div>)}
-                <Link to="/cart">Cart</Link> {/* This is the link to the cart page */}
-          </div>
-
-        </div>
-
-      </nav>
+      <nav className="navbar">
+  <Link to="/">Home</Link>
+  <div className="right-links">
+    {!token && <Link to="/signup">Sign Up</Link>}
+    {!token ? <Link to="/login">Login</Link> : <button onClick={logout}>Logout</button>}
+    <Link to="/cart">Cart</Link> 
+    {token && <Link to="/checkout">Checkout</Link>}
+  </div>
+</nav>
     </div>
   );
 };
