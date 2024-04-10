@@ -4,7 +4,7 @@ import '../css/Home.css';
 
 function Home() {
     const [products, setProducts] = useState([]);
-    const { cart, addToCart } = useContext(CartContext);
+    const { addToCart } = useContext(CartContext);
 
     useEffect(()=> {
         const fetchProducts = async () => {

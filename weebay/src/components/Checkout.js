@@ -15,7 +15,7 @@ function Checkout() {
         cvv:''
     });
 
-    const { cart, setCart } = useContext(CartContext);
+    const { cart} = useContext(CartContext);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
